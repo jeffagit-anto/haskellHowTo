@@ -48,7 +48,4 @@ $ apm install term3 language-haskell ide-haskell ide-haskell-repl haskell-ghc-mo
 -- Atom Menu
 - 'Packages'
  - configure the following packages:
- -  ide-haskell --> set the 'Pretifier' property as $HOME/.local/bin/stylish-haskell
- -  haskell-ghc-mod --> set the 'Ghc Mod Path' property as $HOME/.local/bin/ghc-mod
  - ide-haskell-repl --> set the 'Default REPL' option to 'stack'
- -- todo? linter-hlint --> set the '' property to $HOME/.local/bin/lint
