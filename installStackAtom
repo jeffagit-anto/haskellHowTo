@@ -1,51 +1,34 @@
-2017/11/04
-macOS Sierre 10.12.6 (16G1036)
+# install stack
+curl -sSL https://get.haskellstack.org/ | sh
 
---Terminal
-## uninstall prevous haskell stack
-$ uninstall-hs 
--- Versions found on this system
-8.0.2
--- To remove a version and all earlier: uninstall-hs thru VERSION
--- To remove only a single version:     uninstall-hs only VERSION
+# install command line developer tool
+# as this script is idempotent, execute it even you are not sure to have previously installed this prerequisites
+sudo xcode-select --install
 
-$ sudo uninstall-hs thru 8.0.2 --remove
+# setup you PATH to help your shell finding stack-installed bind
+echo export PATH=\"$HOME/.local/bin:\$PATH\">>$HOME/.bash_profile
+source $HOME/.bash_profile
+# verify your PATH setting :
+echo $PATH
+# should return '/Users/<your user name>/.local/bin:<depending on your previous PATH configuration, some other paths may appear here>:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin'
 
-## install stack
-$ curl -sSL https://get.haskellstack.org/ | sh
+# install ghc (+ some other things, ghci  for example) through stack
+stack setup
 
-## install command line developer tool
-## as this script is idempotent, execute it even you are not sure to have previously installed this prerequisites
-$ sudo xcode-select --install
+# test your stack+ghc installation
+mkdir $HOME/stack && cd $_
+echo 'main=putStrLn "Congrats! stack+ghc are succesfully installed !"'>>stack+ghcInstallTest.hs
+stack stack+ghcInstallTest.hs
+# you should get some WARNINGs! (forget about them) 
+# you MUST get the 'Congrats! stack+ghc are succesfully installed !'
 
-## setup you PATH to help your shell finding stack-installed bind
-$ echo export PATH=\"$HOME/.local/bin:\$PATH\">>$HOME/.bash_profile
-$ source $HOME/.bash_profile
-## verify your PATH setting :
-$ echo $PATH
-## should return '/Users/<your user name>/.local/bin:<depending on your previous PATH configuration, some other paths may appear here>:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin'
+# now it's time to prepare your IDE installation !
+stack install ghc-mod hlint stylish-haskell #slow
 
-## install ghc (+ some other things, ghci  for example) through stack
-$ stack setup
-
-## test your stack+ghc installation
-$ mkdir $HOME/stack && cd $_
-$ echo 'main=putStrLn "Congrats! stack+ghc are succesfully installed !"'>>stack+ghcInstallTest.hs
-$ stack stack+ghcInstallTest.hs
-## you should get some WARNINGs! (forget about them) 
-## you MUST get the 'Congrats! stack+ghc are succesfully installed !'
-
-## now it's time to prepare your IDE installation !
-$ stack install ghc-mod hlint stylish-haskell #slow
-
-## the following is ATOM-specific
+# the following is ATOM-specific
 # Prerequisite : install the Atom IDE : https://atom.io
 # use apm, the atom package manager to install the useful plugins
-$ apm install term3 language-haskell ide-haskell ide-haskell-repl haskell-ghc-mod linter linter-hlint
+apm install term3 language-haskell ide-haskell ide-haskell-repl haskell-ghc-mod linter linter-hlint
 
-## start or restart Atom
-##configure the newly installed plugins
--- Atom Menu
-- 'Packages'
- - configure the following packages:
- - ide-haskell-repl --> set the 'Default REPL' option to 'stack'
+# start or restart Atom
+atom stack+ghcInstallTest.hs
